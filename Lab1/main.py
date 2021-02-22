@@ -48,11 +48,12 @@ if __name__ == "__main__":
 
     # 1. Creation de vocabulaire.
     vocab = VocabularyCreator()
-    vocab.create_vocab()
+    print(vocab.clean_text("dr . kaminski \nattached please find a copy of our term paper . advise\nif you experience problems opening the attachment .\nbest regards \nken jett\n- combo 2 [ 1 ] . v 2 . do\n"))
+    #vocab.create_vocab()
 
     # 2. Classification des emails et initialisation de utilisateurs et groupes.
-    renege = RENEGE()
-    renege.classify_emails()
+    #renege = RENEGE()
+    #renege.classify_emails()
 
     #3. Evaluation de performance du modele avec la fonction evaluate()
-    evaluate()
+    #evaluate()
