@@ -69,7 +69,7 @@ class TestCRUD(unittest.TestCase):
        
         crud=CRUD()
         mock_read_groups_file.return_value=self.groups_data 
-        self.assertFalse(crud.add_new_group("NewGroup", 50, ["alex@gmail.com", "mark@mail.com"]))
+        self.assertTrue(crud.add_new_group("NewGroup", 50, ["alex@gmail.com", "mark@mail.com"]))
 
         """Description: il faut utiliser les mocks des fonctions "read_groups_file",
         "modify_groups_file" (ou selon votre realisation) pour tester que
@@ -285,7 +285,7 @@ class TestCRUD(unittest.TestCase):
 
         mock_read_groups_file.return_value = self.groups_data
         crud=CRUD()
-        crud.update_groups('2', "name", "ennemies")
+        crud.update_groups('2', "Trust", 13)
         mock_modify_groups_file.assert_called_once_with(self.groups_data)
 
         """Il faut utiliser les mocks pour 'read_groups_file' et 'modify_groups_file'
