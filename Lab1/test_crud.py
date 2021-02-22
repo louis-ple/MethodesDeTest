@@ -416,6 +416,10 @@ class TestCRUD(unittest.TestCase):
         mock_modify_groups_file.assert_called_once_with(self.groups_data)
         pass
 
+    #Additional test to increase coverage:
+
+    
+
 
 #if __name__ == "__main__":
 
