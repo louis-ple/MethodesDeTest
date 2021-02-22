@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 class TestVocabularyCreator(unittest.TestCase):
     def setUp(self):
+        self.mails = {
             "dataset": [
                 {
                     "mail": {
@@ -24,9 +25,8 @@ class TestVocabularyCreator(unittest.TestCase):
                     "Spam": "true",
                     "File": "enronds//enron1/spam/3660.2005-02-02.GP.spam.txt"
                     }
-                }
-            ]
-        }  # données pour mocker "return_value" du "load_dict"
+                }]
+            }  # données pour mocker "return_value" du "load_dict"
         self.clean_subject_spam = ['fwd', 'porn', 'money']  # données pour mocker "return_value" du "clean_text"
         self.clean_body_spam = ['make', 'day', 'adult', 'industri', 'bring', 'rich', 'beyond', 'wildest', 'dream', 'make', 'day', 'littl', 'invest', 'show', 'make', 'fortun', 'becom', 'adult', 'webmast', 'part', 'full', 'time', 'would', 'prefer', 'receiv', 'messag', 'check', 'email', 'remov', 'within', 'hr']  # données pour mocker "return_value" du "clean_text"
         self.clean_subject_ham = ['term', 'paper']  # données pour mocker "return_value" du "clean_text"
@@ -91,7 +91,7 @@ class TestVocabularyCreator(unittest.TestCase):
                 'regard':1/17,
                 'ken':1/17,
                 'jett':1/17,
-                'combo':1/17'
+                'combo':1/17
             }
 
         }  # vocabulaire avec les valuers de la probabilité calculées correctement
@@ -105,6 +105,15 @@ class TestVocabularyCreator(unittest.TestCase):
     def test_create_vocab_spam_Returns_vocabulary_with_correct_values(
         self, mock_write_data_to_vocab_file, mock_clean_text, mock_load_dict
     ):
+
+        mock_write_data_to_vocab_file.return_value=True
+        mock_clean_text.side_effect=[self.clean_subject_spam,self.clean_subject_ham,self.clean_body_spam,self.clean_body_ham]
+        mock_load_dict.return_value=self.mails
+
+        vc=VocabularyCreator()
+        self.assertEqual(vc.create_vocab(), mock_write_data_to_vocab_file.return_value)
+
+
         """Description: Tester qu'un vocabulaire avec les probabilités calculées
         correctement va être retourné. Il faut mocker les fonctions "load dict"
          (utiliser self.mails comme un return value simulé),"clean text"
