@@ -63,16 +63,13 @@ class TestCRUD(unittest.TestCase):
         il faut utiliser ".assert_called_once_with(expected_data)"
         """
 
-   # Autre test
-
     @patch("crud.CRUD.read_groups_file")
     @patch("crud.CRUD.modify_groups_file")
     def test_add_new_group_Passes_correct_data_to_modify_groups_file(self, mock_modify_groups_file, mock_read_groups_file):
        
-        #crud=CRUD()
-        #mock_read_groups_file.return_value=self.groups_data 
-        #crud.add_new_group("NewGroup", 50, ["alex@gmail.com", "mark@mail.com"])
-        #mock_modify_groups_file.assert_called_once_with(self.groups_data)
+        crud=CRUD()
+        mock_read_groups_file.return_value=self.groups_data 
+        self.assertFalse(crud.add_new_group("NewGroup", 50, ["alex@gmail.com", "mark@mail.com"]))
 
         """Description: il faut utiliser les mocks des fonctions "read_groups_file",
         "modify_groups_file" (ou selon votre realisation) pour tester que
@@ -416,9 +413,28 @@ class TestCRUD(unittest.TestCase):
         mock_modify_groups_file.assert_called_once_with(self.groups_data)
         pass
 
-    #Additional test to increase coverage:
+    #Additional tests to increase coverage:
 
-    
+    #Convert_to_Unix (3 lines)
+    def test_convert_to_unix_returns_correct_timestamp_for_utc_timezone(self):
+        crud=CRUD()
+        timestamp01Jan2021=1609459200
+        self.assertEqual(crud.convert_to_unix("2021-01-01"), timestamp01Jan2021)
+
+
+    #modify_users_file (3 lines)
+    @patch("crud.CRUD.modify_users_file")
+    def test_modify_users_file_returns_True(self, mock_modify_users_file):
+        mock_modify_users_file.return_value = self.users_data
+        crud=CRUD()
+        self.assertTrue(crud.modify_users_file("fake data"))
+
+    #modify_groups_file (3 lines)
+    @patch("crud.CRUD.modify_groups_file")
+    def test_modify_groups_file_return_True(self, mock_modify_groups_file):
+        mock_modify_groups_file.return_value = self.groups_data
+        crud=CRUD()
+        self.assertTrue(crud.modify_groups_file("fake data"))
 
 
 #if __name__ == "__main__":

@@ -173,3 +173,49 @@ class RENEGE:
         '''
         with open(self.email_file) as email_file:
             return json.load(email_file)
+
+    def compute_user_trust_level(self,userID)
+        '''
+        Réponse pour la deuxième partie : tests de flots de données
+        (Fonction pour calculer le trust d'utilisateur)
+        '''
+
+        NSpam=self.crud.get_user_data(userID,"SpamN")
+        NHam=self.crud.get_user_data(userID, "HamN")
+
+        timeOfFirstSeenMessage = self.crud.get_user_data(userID, "Date_of_first_seen_message")
+        timeOfLastSeenMessage = self.crud.get_user_data(userID, "Date_of_last_seen_message")
+
+        trust1 = (timeOfLastSeenMessage*NHam) / (timeOfFirstSeenMessage*(NHam+NSpam))
+
+        if(trust1>100)
+            trust=100
+
+        #Compute average value of trust from all groups to which user belongs
+        groups=self.crud.read_groups_file()
+        name=self.crud.get_user_data(userID, "name")
+
+        for x in groups:
+            if name in x["List_of_members"]:
+                sumOfTrusts += x["Trust"]
+                trustsCount += 1
+        
+        trust2 = sumOfTrusts / trustsCount
+
+        if trust2<50:
+            trust=trust2
+        elif trust1>100:
+            trust=100
+        else:
+            trust = (trust1+trust2)/2
+
+        if trust<0:
+            trust=0
+
+        if trust>100:
+            trust=100
+
+
+        
+        
+
