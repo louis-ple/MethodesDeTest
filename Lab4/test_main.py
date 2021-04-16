@@ -69,7 +69,7 @@ def test_change_emails_order_train():
 def test_change_emails_order_test():
     print("Test #2: Changement de l’ordre des e-mails dans test")
 
-    initial_accuracy=evaluate("train_set.json", "vocabulary.json")
+    initial_accuracy=evaluate("test_set.json", "vocabulary.json")
 
     with open("test_set.json", "r") as file:
         emails=json.load(file)
@@ -165,13 +165,60 @@ def test_change_words_order_test():
 def test_add_emails_train():
     print("Test #5: Ajout des mêmes e-mails dans train")
 
+    initial_accuracy=evaluate("train_set.json", "vocabulary.json")
+
+    with open("train_set.json", "r") as file:
+        emails=json.load(file)
+
+    for a,b in emails.items():
+        emails[a].extend(b)
+
+    with open("train700x2.json", "w") as file2:
+        json.dump(emails,file2)
+
+    accuracy=evaluate("train700x2.json", "vocabulary.json")
+
+    print("")
+    print("Initial accuracy: ", initial_accuracy)
+    print("Accuracy: ", accuracy)
+
+    if (accuracy / initial_accuracy) > 1.03 or (accuracy / initial_accuracy) < 0.97:
+        print("Difference > 3%, test failed.")
+    else:
+        print("Difference < 3%, test passed.")
+
+
 def test_add_emails_test():
     print("Test #6: Ajout des mêmes e-mails dans test")
+
+    initial_accuracy=evaluate("test_set.json", "vocabulary.json")
+
+    with open("test_set.json", "r") as file:
+        emails=json.load(file)
+
+    for a,b in emails.items():
+        emails[a].extend(b)
+
+    with open("test300x2.json", "w") as file2:
+        json.dump(emails,file2)
+
+    accuracy=evaluate("test300x2.json", "vocabulary.json")
+
+    print("")
+    print("Initial accuracy: ", initial_accuracy)
+    print("Accuracy: ", accuracy)
+
+    if (accuracy / initial_accuracy) > 1.03 or (accuracy / initial_accuracy) < 0.97:
+        print("Difference > 3%, test failed.")
+    else:
+        print("Difference < 3%, test passed.")
+
+
 
 def test_add_noise_train():
     print("Test #7: Ajout du bruit dans train")
 
-def test_add_noise_train():
+def test_add_noise_test():
     print("Test #8: Ajout du bruit dans test")
 
 test_change_emails_order_train()
@@ -181,7 +228,7 @@ test_change_words_order_test()
 test_add_emails_train()
 test_add_emails_test()
 test_add_noise_train()
-test_add_noise_train()
+test_add_noise_test()
 
 
 
